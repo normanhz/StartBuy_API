@@ -8,5 +8,7 @@ namespace STARTBUY_API
         public int GananciaId { get; set; }
         public int? VentaProductoId { get; set; }
         public decimal? Total { get; set; }
+
+        public virtual TblVentasProductos VentaProducto { get; set; }
     }
 }
