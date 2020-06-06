@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,12 @@ namespace STARTBUY_API.Controllers
             return Ok(user);
         }
 
+        [HttpGet("GetGenders")]
+        public async Task<ActionResult> GetGenders()
+        {
+            var generos = await _context.TblGeneros.ToListAsync();
+            return Ok(generos);
+        }
 
         [HttpPost("UserLogin")]
         public async Task<ActionResult<TblUsuariosPersonas>> PostUserLogin(LoginDTO log)
@@ -62,24 +69,45 @@ namespace STARTBUY_API.Controllers
             });
         }
 
+        /*private Boolean email_bien_escrito(String email)
+        {
+            String expresion;
+            expresion = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
+            if (Regex.IsMatch(email, expresion))
+            {
+                if (Regex.Replace(email, expresion, String.Empty).Length == 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }*/
+
         [HttpPost("UserRegistration")]
         public async Task<ActionResult<TblUsuariosPersonas>> PostUserRegistration(TblUsuariosPersonas user)
         {
             Random rdm = new Random();
             var code = rdm.Next(1000, 9000);
 
-            TblUsuariosPersonas item = new TblUsuariosPersonas()
+            TblUsuariosPersonas item = new TblUsuariosPersonas()    
             {
                 Usuario = user.Usuario,
                 Nombres = user.Nombres,
                 Apellidos = user.Apellidos,
                 Email = user.Email,
                 GeneroId = user.GeneroId,
-                PaisId = user.PaisId,
+                PaisId = 1,
                 Password = Encrypter.Encrypt(user.Password),
                 CodigoVerificacion = code,
-                DepartamentoId = user.DepartamentoId,
-                CiudadId = user.CiudadId,
+                DepartamentoId = 2,
+                CiudadId = 2,
                 DireccionCompleta = user.DireccionCompleta,
                 Telefono = user.Telefono,
                 CuentaVerificada = false,
@@ -87,14 +115,20 @@ namespace STARTBUY_API.Controllers
                 FechaModifico = DateTime.Now
             };
 
-            var validarFirstName = item.Nombres == "";
-            if (validarFirstName)
+            var validarUsuario = item.Usuario == "";
+            if (validarUsuario)
+            {
+                return BadRequest("El campo usuario no puede ir vacio.");
+            }
+
+            var validarNombres = item.Nombres == "";
+            if (validarNombres)
             {
                 return BadRequest("El campo nombres no puede ir vacio.");
             }
 
-            var validarLastName = item.Apellidos == "";
-            if (validarLastName)
+            var validarApellidos = item.Apellidos == "";
+            if (validarApellidos)
             {
                 return BadRequest("El campo apellidos no puede ir vacio.");
             }
@@ -117,10 +151,16 @@ namespace STARTBUY_API.Controllers
                 return BadRequest("La contraseña no puede ir vacia.");
             }
 
-            var emailexist = _context.TblUsuariosPersonas.FirstOrDefault(x => x.Email == item.Email);
-            var telephoneexist = _context.TblUsuariosPersonas.FirstOrDefault(x => x.Telefono == item.Telefono);
+            /*var validarFormatEmail = email_bien_escrito(item.Email);
+            if (!validarFormatEmail)
+            {
+                return BadRequest("Verifique el correo, no está en el formato correcto.");
+            }*/
 
-            var validar = emailexist == null || telephoneexist == null;
+            var emailexist = _context.TblUsuariosPersonas.FirstOrDefault(x => x.Email == item.Email);
+            var usuarioexist = _context.TblUsuariosPersonas.FirstOrDefault(x => x.Usuario == item.Usuario);
+
+            var validar = emailexist == null && usuarioexist == null;
             if (validar)
             {
                 _context.TblUsuariosPersonas.Add(item);
@@ -151,7 +191,7 @@ namespace STARTBUY_API.Controllers
             }
             else
             {
-                return BadRequest("El email que registro ya esta asociado a una cuenta existente.");
+                return BadRequest("El email o usuario ya esta asociado a una cuenta existente.");
             }
         }
 

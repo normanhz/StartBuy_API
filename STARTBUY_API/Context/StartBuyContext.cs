@@ -15,6 +15,7 @@ namespace STARTBUY_API
         {
         }
 
+        public virtual DbSet<TblCategoriasEmpresa> TblCategoriasEmpresa { get; set; }
         public virtual DbSet<TblCategoriasProductos> TblCategoriasProductos { get; set; }
         public virtual DbSet<TblCiudades> TblCiudades { get; set; }
         public virtual DbSet<TblDepartamentos> TblDepartamentos { get; set; }
@@ -34,12 +35,31 @@ namespace STARTBUY_API
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("server=LOCALHOST\\SQLEXPRESS;database=DBSTARTBUY;user=;password=;Trusted_Connection=True;");
+                //optionsBuilder.UseSqlServer("server=LOCALHOST\\SQLEXPRESS;database=DBSTARTBUY;user=;password=;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=db-startbuy.chlrw9bkclct.us-east-1.rds.amazonaws.com;Database=DBSTARTBUY;User Id=admin;Password=Datos2020;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<TblCategoriasEmpresa>(entity =>
+            {
+                entity.HasKey(e => e.CategoriaEmpresaId);
+
+                entity.ToTable("TBL_CATEGORIAS_EMPRESA");
+
+                entity.Property(e => e.CategoriaEmpresaId).HasColumnName("Categoria_EmpresaID");
+
+                entity.Property(e => e.CategoriaEmpresa)
+                    .HasColumnName("Categoria_Empresa")
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CategoriaEmpresaImage)
+                    .HasColumnName("CategoriaEmpresa_Image")
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<TblCategoriasProductos>(entity =>
             {
                 entity.HasKey(e => e.CategoriaProductoId);
@@ -109,6 +129,8 @@ namespace STARTBUY_API
 
                 entity.Property(e => e.EmpresaId).HasColumnName("EmpresaID");
 
+                entity.Property(e => e.CategoriaEmpresaId).HasColumnName("Categoria_EmpresaID");
+
                 entity.Property(e => e.CiudadId).HasColumnName("CiudadID");
 
                 entity.Property(e => e.DepartamentoId).HasColumnName("DepartamentoID");
@@ -121,6 +143,10 @@ namespace STARTBUY_API
                     .HasMaxLength(400)
                     .IsUnicode(false);
 
+                entity.Property(e => e.EmpresaImage)
+                    .HasColumnName("Empresa_Image")
+                    .IsUnicode(false);
+
                 entity.Property(e => e.NombreContacto)
                     .HasColumnName("Nombre_Contacto")
                     .HasMaxLength(200)
@@ -129,6 +155,11 @@ namespace STARTBUY_API
                 entity.Property(e => e.NumeroContacto).HasColumnName("Numero_Contacto");
 
                 entity.Property(e => e.PaisId).HasColumnName("PaisID");
+
+                entity.HasOne(d => d.CategoriaEmpresa)
+                    .WithMany(p => p.TblEmpresas)
+                    .HasForeignKey(d => d.CategoriaEmpresaId)
+                    .HasConstraintName("FK_TBL_EMPRESAS_TBL_CATEGORIAS_EMPRESA");
 
                 entity.HasOne(d => d.Ciudad)
                     .WithMany(p => p.TblEmpresas)
@@ -236,6 +267,10 @@ namespace STARTBUY_API
 
                 entity.Property(e => e.Producto)
                     .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ProductoImage)
+                    .HasColumnName("Producto_Image")
                     .IsUnicode(false);
 
                 entity.Property(e => e.UsuarioIngreso).HasColumnName("Usuario_Ingreso");
