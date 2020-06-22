@@ -36,7 +36,7 @@ namespace STARTBUY_API
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 //optionsBuilder.UseSqlServer("server=LOCALHOST\\SQLEXPRESS;database=DBSTARTBUY;user=;password=;Trusted_Connection=True;");
-                optionsBuilder.UseSqlServer("Server=db-startbuy.chlrw9bkclct.us-east-1.rds.amazonaws.com;Database=DBSTARTBUY;User Id=admin;Password=Datos2020;");
+                optionsBuilder.UseSqlServer("server=db-startbuy.chlrw9bkclct.us-east-1.rds.amazonaws.com;database=DBSTARTBUY;user=admin;password=Datos2020;");
             }
         }
 
@@ -252,6 +252,8 @@ namespace STARTBUY_API
                 entity.Property(e => e.CantidadEnStock).HasColumnName("Cantidad_En_Stock");
 
                 entity.Property(e => e.CategoriaProductoId).HasColumnName("Categoria_ProductoID");
+
+                entity.Property(e => e.Descripcion).IsUnicode(false);
 
                 entity.Property(e => e.EmpresaId).HasColumnName("EmpresaID");
 

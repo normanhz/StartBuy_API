@@ -28,6 +28,13 @@ namespace STARTBUY_API.Controllers
             return Ok(user);
         }
 
+        [HttpGet("GetUsersById/{id}")]
+        public async Task<ActionResult> GetUsersById(int id)
+        {
+            var user = await _context.TblUsuariosPersonas.Where(x=> x.UsuarioPersonaId == id).ToListAsync();
+            return Ok(user);
+        }
+
         [HttpGet("GetGenders")]
         public async Task<ActionResult> GetGenders()
         {
@@ -96,7 +103,7 @@ namespace STARTBUY_API.Controllers
             Random rdm = new Random();
             var code = rdm.Next(1000, 9000);
 
-            TblUsuariosPersonas item = new TblUsuariosPersonas()    
+            TblUsuariosPersonas item = new TblUsuariosPersonas()
             {
                 Usuario = user.Usuario,
                 Nombres = user.Nombres,
@@ -244,5 +251,48 @@ namespace STARTBUY_API.Controllers
             await _context.SaveChangesAsync();
             return Ok();
         }
+
+        [HttpPut("EditUserInfo/{id}")]
+        public async Task<IActionResult> PutEditUserInfo(int id, TblUsuariosPersonas user)
+        {
+            var data = await _context.TblUsuariosPersonas.FirstOrDefaultAsync(x => x.UsuarioPersonaId == id);
+
+            var validar = data == null;
+            if (validar)
+            {
+                return NotFound();
+            }
+
+            data.Usuario = user.Usuario;
+            data.Nombres = user.Nombres;
+            data.Apellidos = user.Apellidos;
+            data.Email = user.Email;
+            data.DireccionCompleta = user.DireccionCompleta;
+            data.Telefono = user.Telefono;
+            data.FechaModifico = DateTime.Now;
+
+            await _context.SaveChangesAsync();
+            return Ok(new
+            {
+                UsuarioPersonaId = data.UsuarioPersonaId,
+                Usuario = data.Usuario,
+                Nombres = data.Nombres,
+                Apellidos = data.Apellidos,
+                Email = data.Email,
+                GeneroId = data.GeneroId,
+                PaisId = data.PaisId,
+                Password = data.Password,
+                CodigoVerificacion = data.CodigoVerificacion,
+                DepartamentoId = data.DepartamentoId,
+                CiudadId = data.CiudadId,
+                DireccionCompleta = data.DireccionCompleta,
+                Telefono = data.Telefono,
+                CuentaVerificada = data.CuentaVerificada,
+                FechaIngreso = data.FechaIngreso,
+                FechaModifico = data.FechaModifico
+            });
+        }
+
+
     }
 }

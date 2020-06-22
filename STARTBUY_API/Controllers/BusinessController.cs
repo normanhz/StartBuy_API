@@ -40,5 +40,13 @@ namespace STARTBUY_API.Controllers
             return Ok(business);
 
         }
+
+        [HttpGet("GetProductsByBusiness/{id}")]
+        public async Task<ActionResult> GetProductsByBusiness(int id)
+        {
+            var products = await _context.TblProductos.Where(x=> x.EmpresaId == id).OrderBy(y=>y.CategoriaProductoId).ToListAsync();
+            return Ok(products);
+        }
+
     }
 }
