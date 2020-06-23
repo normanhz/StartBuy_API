@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Proyectos Norman Hernandez\\STARTBUY_API\\STARTBUY_API\\STARTBUY_API.csproj": {}
+    "C:\\Users\\Normal Hernández\\Documents\\StartBuy_API\\STARTBUY_API\\STARTBUY_API.csproj": {}
   },
   "projects": {
-    "C:\\Proyectos Norman Hernandez\\STARTBUY_API\\STARTBUY_API\\STARTBUY_API.csproj": {
+    "C:\\Users\\Normal Hernández\\Documents\\StartBuy_API\\STARTBUY_API\\STARTBUY_API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Proyectos Norman Hernandez\\STARTBUY_API\\STARTBUY_API\\STARTBUY_API.csproj",
+        "projectUniqueName": "C:\\Users\\Normal Hernández\\Documents\\StartBuy_API\\STARTBUY_API\\STARTBUY_API.csproj",
         "projectName": "STARTBUY_API",
-        "projectPath": "C:\\Proyectos Norman Hernandez\\STARTBUY_API\\STARTBUY_API\\STARTBUY_API.csproj",
+        "projectPath": "C:\\Users\\Normal Hernández\\Documents\\StartBuy_API\\STARTBUY_API\\STARTBUY_API.csproj",
         "packagesPath": "C:\\Users\\Normal Hernández\\.nuget\\packages\\",
-        "outputPath": "C:\\Proyectos Norman Hernandez\\STARTBUY_API\\STARTBUY_API\\obj\\",
+        "outputPath": "C:\\Users\\Normal Hernández\\Documents\\StartBuy_API\\STARTBUY_API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",
@@ -60,6 +60,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[3.1.4, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[3.1.3, )"
             }
           },
           "imports": [

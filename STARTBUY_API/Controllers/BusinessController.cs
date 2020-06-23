@@ -41,12 +41,44 @@ namespace STARTBUY_API.Controllers
 
         }
 
+        //[HttpGet("GetProductsByBusiness/{id}")]
+        //public async Task<ActionResult> GetProductsByBusiness(int id)
+        //{
+        //    var products = await _context.TblProductos.Where(x=> x.EmpresaId == id).OrderBy(y=>y.CategoriaProductoId).ToListAsync();
+        //    return Ok(products);
+        //}
+
         [HttpGet("GetProductsByBusiness/{id}")]
         public async Task<ActionResult> GetProductsByBusiness(int id)
         {
-            var products = await _context.TblProductos.Where(x=> x.EmpresaId == id).OrderBy(y=>y.CategoriaProductoId).ToListAsync();
+            var products = await _context.TblCategoriasProductos.Where(cat => cat.EmpresaId == id)
+                .Select(Category => new
+                {
+                    CategoriaProductoId = Category.CategoriaProductoId,
+                    CategoriaProducto = Category.CategoriaProducto,
+                    Products = _context.TblProductos.Where(prod => prod.CategoriaProductoId == Category.CategoriaProductoId)
+                .Select(Product => new
+                {
+                    ProductId = Product.ProductoId,
+                    Producto = Product.Producto,
+                    Descripcion = Product.Descripcion,
+                    ProductImage = Product.ProductoImage,
+                    EmpresaId = Product.EmpresaId,
+                    CategoriaProductoId = Product.CategoriaProductoId,
+                    Precio = Product.Precio,
+                    CantidadEnStock = Product.CantidadEnStock
+                }).ToList()
+                }).ToListAsync();
+
+            var validar = products == null;
+            if (validar)
+            {
+                return NotFound();
+            }
+
             return Ok(products);
         }
+
 
     }
 }
