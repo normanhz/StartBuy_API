@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace STARTBUY_API
 {
-    public partial class TblCategoriasProductos
+    public partial class TblNoticias
     {
-        public int CategoriaProductoId { get; set; }
-        public string CategoriaProducto { get; set; }
+        public int NoticiaId { get; set; }
         public int? EmpresaId { get; set; }
+        public string Descripcion { get; set; }
 
         public virtual TblEmpresas Empresa { get; set; }
     }

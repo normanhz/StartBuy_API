@@ -8,8 +8,8 @@ namespace STARTBUY_API
         public TblEmpresas()
         {
             TblCategoriasProductos = new HashSet<TblCategoriasProductos>();
+            TblNoticias = new HashSet<TblNoticias>();
             TblProductos = new HashSet<TblProductos>();
-            TblVentasProductos = new HashSet<TblVentasProductos>();
         }
 
         public int EmpresaId { get; set; }
@@ -29,7 +29,7 @@ namespace STARTBUY_API
         public virtual TblDepartamentos Departamento { get; set; }
         public virtual TblPaises Pais { get; set; }
         public virtual ICollection<TblCategoriasProductos> TblCategoriasProductos { get; set; }
+        public virtual ICollection<TblNoticias> TblNoticias { get; set; }
         public virtual ICollection<TblProductos> TblProductos { get; set; }
-        public virtual ICollection<TblVentasProductos> TblVentasProductos { get; set; }
     }
 }

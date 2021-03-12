@@ -8,7 +8,7 @@ namespace STARTBUY_API
         public TblCiudades()
         {
             TblEmpresas = new HashSet<TblEmpresas>();
-            TblUsuarios = new HashSet<TblUsuarios>();
+            TblUsuariosAsociados = new HashSet<TblUsuariosAsociados>();
             TblUsuariosPersonas = new HashSet<TblUsuariosPersonas>();
         }
 
@@ -18,7 +18,7 @@ namespace STARTBUY_API
 
         public virtual TblDepartamentos Departamento { get; set; }
         public virtual ICollection<TblEmpresas> TblEmpresas { get; set; }
-        public virtual ICollection<TblUsuarios> TblUsuarios { get; set; }
+        public virtual ICollection<TblUsuariosAsociados> TblUsuariosAsociados { get; set; }
         public virtual ICollection<TblUsuariosPersonas> TblUsuariosPersonas { get; set; }
     }
 }

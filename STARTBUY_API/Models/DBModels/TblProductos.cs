@@ -18,6 +18,7 @@ namespace STARTBUY_API
         public int? CategoriaProductoId { get; set; }
         public decimal? Precio { get; set; }
         public int? CantidadEnStock { get; set; }
+        public bool? Estado { get; set; }
         public int? UsuarioIngreso { get; set; }
         public DateTime? FechaIngreso { get; set; }
         public int? UsuarioModifico { get; set; }

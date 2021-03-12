@@ -51,6 +51,10 @@ C:\Proyectos Norman Hernandez\STARTBUY_API\STARTBUY_API\obj\Debug\netcoreapp3.1\
 C:\Proyectos Norman Hernandez\STARTBUY_API\STARTBUY_API\obj\Debug\netcoreapp3.1\STARTBUY_API.dll
 C:\Proyectos Norman Hernandez\STARTBUY_API\STARTBUY_API\obj\Debug\netcoreapp3.1\STARTBUY_API.pdb
 C:\Proyectos Norman Hernandez\STARTBUY_API\STARTBUY_API\obj\Debug\netcoreapp3.1\STARTBUY_API.genruntimeconfig.cache
+C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\obj\Debug\netcoreapp3.1\STARTBUY_API.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\obj\Debug\netcoreapp3.1\STARTBUY_API.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\obj\Debug\netcoreapp3.1\STARTBUY_API.AssemblyInfoInputs.cache
+C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\obj\Debug\netcoreapp3.1\STARTBUY_API.AssemblyInfo.cs
 C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\bin\Debug\netcoreapp3.1\appsettings.Development.json
 C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\bin\Debug\netcoreapp3.1\appsettings.json
 C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\bin\Debug\netcoreapp3.1\aws-beanstalk-tools-defaults.json
@@ -87,6 +91,7 @@ C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\bin\Debug\netcore
 C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Options.dll
 C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
 C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\bin\Debug\netcoreapp3.1\Microsoft.Identity.Client.dll
+C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\bin\Debug\netcoreapp3.1\Microsoft.OpenApi.dll
 C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.dll
 C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Contracts.dll
 C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Core.dll
@@ -97,6 +102,9 @@ C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\bin\Debug\netcore
 C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll
 C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
 C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\bin\Debug\netcoreapp3.1\NuGet.Frameworks.dll
+C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\bin\Debug\netcoreapp3.1\System.Collections.Immutable.dll
 C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\bin\Debug\netcoreapp3.1\System.Composition.AttributedModel.dll
 C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\bin\Debug\netcoreapp3.1\System.Composition.Convention.dll
@@ -167,9 +175,7 @@ C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\bin\Debug\netcore
 C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\obj\Debug\netcoreapp3.1\STARTBUY_API.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\obj\Debug\netcoreapp3.1\STARTBUY_API.AssemblyInfoInputs.cache
-C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\obj\Debug\netcoreapp3.1\STARTBUY_API.AssemblyInfo.cs
+C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\obj\Debug\netcoreapp3.1\STARTBUY_API.csprojAssemblyReference.cache
 C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\obj\Debug\netcoreapp3.1\STARTBUY_API.RazorTargetAssemblyInfo.cache
 C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\obj\Debug\netcoreapp3.1\STARTBUY_API.csproj.CopyComplete
 C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\obj\Debug\netcoreapp3.1\staticwebassets\STARTBUY_API.StaticWebAssets.Manifest.cache
@@ -177,5 +183,3 @@ C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\obj\Debug\netcore
 C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\obj\Debug\netcoreapp3.1\STARTBUY_API.dll
 C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\obj\Debug\netcoreapp3.1\STARTBUY_API.pdb
 C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\obj\Debug\netcoreapp3.1\STARTBUY_API.genruntimeconfig.cache
-C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\obj\Debug\netcoreapp3.1\STARTBUY_API.csprojAssemblyReference.cache
-C:\Users\Normal Hernández\Documents\StartBuy_API\STARTBUY_API\obj\Debug\netcoreapp3.1\STARTBUY_API.csproj.CoreCompileInputs.cache

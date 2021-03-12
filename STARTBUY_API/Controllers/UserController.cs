@@ -16,6 +16,8 @@ namespace STARTBUY_API.Controllers
     {
         private readonly StartBuyContext _context;
 
+        AppServices _AppServices = new AppServices();
+
         public UserController(StartBuyContext context)
         {
             _context = context;
@@ -28,12 +30,20 @@ namespace STARTBUY_API.Controllers
             return Ok(user);
         }
 
-        [HttpGet("GetUsersById/{id}")]
-        public async Task<ActionResult> GetUsersById(int id)
+        [HttpGet("GetInfoUsuarioPersona/{username}/{email}")]
+        public async Task<ActionResult> GetInfoUsuarioPersona(string username, string email)
         {
-            var user = await _context.TblUsuariosPersonas.Where(x=> x.UsuarioPersonaId == id).ToListAsync();
+            var user = await _context.TblUsuariosPersonas.Where(x=> x.Usuario == username && x.Email == email).ToListAsync();
             return Ok(user);
         }
+
+        [HttpGet("GetInfoUsuarioSocio/{username}/{email}")]
+        public async Task<ActionResult> GetInfoUsuarioSocio(string username, string email)
+        {
+            var user = await _context.TblUsuariosAsociados.Where(x => x.Usuario == username && x.Email == email).ToListAsync();
+            return Ok(user);
+        }
+
 
         [HttpGet("GetGenders")]
         public async Task<ActionResult> GetGenders()
@@ -42,12 +52,13 @@ namespace STARTBUY_API.Controllers
             return Ok(generos);
         }
 
-        [HttpPost("UserLogin")]
-        public async Task<ActionResult<TblUsuariosPersonas>> PostUserLogin(LoginDTO log)
+        // TRABAJAAA EN ESTO NORMAN DEL FUTURO NO SEAS HUEVON.!, YAAAA NORMAN DEL PASADO YA LO HICE!!
+        [HttpPost("UserLoginv2")]
+        public async Task<ActionResult<TblUsuarios>> PostUserLoginv2(LoginDTO log)
         {
             var passencrypted = Encrypter.Encrypt(log.Password);
 
-            var user = await _context.TblUsuariosPersonas.FirstOrDefaultAsync(x => x.Email == log.User && x.Password == passencrypted || x.Usuario == log.User && x.Password == passencrypted);
+            var user = await _context.TblUsuarios.FirstOrDefaultAsync(x => x.Email == log.User && x.Password == passencrypted || x.Usuario == log.User && x.Password == passencrypted);
 
             var validar = user == null;
             if (validar)
@@ -57,45 +68,52 @@ namespace STARTBUY_API.Controllers
 
             return Ok(new
             {
-                UsuarioPersonaId = user.UsuarioPersonaId,
+                UsuarioId = user.UsuarioId,
                 Usuario = user.Usuario,
                 Nombres = user.Nombres,
-                Apellidos = user.Apellidos,
                 Email = user.Email,
-                GeneroId = user.GeneroId,
-                PaisId = user.PaisId,
                 Password = user.Password,
-                CodigoVerificacion = user.CodigoVerificacion,
-                DepartamentoId = user.DepartamentoId,
-                CiudadId = user.CiudadId,
-                DireccionCompleta = user.DireccionCompleta,
-                Telefono = user.Telefono,
-                CuentaVerificada = user.CuentaVerificada,
-                FechaIngreso = user.FechaIngreso,
-                FechaModifico = user.FechaModifico
+                IsAdmin = user.IsAdmin,
             });
         }
 
-        /*private Boolean email_bien_escrito(String email)
-        {
-            String expresion;
-            expresion = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
-            if (Regex.IsMatch(email, expresion))
-            {
-                if (Regex.Replace(email, expresion, String.Empty).Length == 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }*/
+      
+
+        //[HttpPost("UserLogin")]
+        //public async Task<ActionResult<TblUsuariosPersonas>> PostUserLogin(LoginDTO log)
+        //{
+        //    var passencrypted = Encrypter.Encrypt(log.Password);
+
+        //    var user = await _context.TblUsuariosPersonas.FirstOrDefaultAsync(x => x.Email == log.User && x.Password == passencrypted || x.Usuario == log.User && x.Password == passencrypted);
+
+        //    var validar = user == null;
+        //    if (validar)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return Ok(new
+        //    {
+        //        UsuarioPersonaId = user.UsuarioPersonaId,
+        //        Usuario = user.Usuario,
+        //        Nombres = user.Nombres,
+        //        Apellidos = user.Apellidos,
+        //        Email = user.Email,
+        //        GeneroId = user.GeneroId,
+        //        PaisId = user.PaisId,
+        //        Password = user.Password,
+        //        CodigoVerificacion = user.CodigoVerificacion,
+        //        DepartamentoId = user.DepartamentoId,
+        //        CiudadId = user.CiudadId,
+        //        DireccionCompleta = user.DireccionCompleta,
+        //        Telefono = user.Telefono,
+        //        CuentaVerificada = user.CuentaVerificada,
+        //        FechaIngreso = user.FechaIngreso,
+        //        FechaModifico = user.FechaModifico
+        //    });
+        //}
+
+       
 
         [HttpPost("UserRegistration")]
         public async Task<ActionResult<TblUsuariosPersonas>> PostUserRegistration(TblUsuariosPersonas user)
@@ -120,6 +138,15 @@ namespace STARTBUY_API.Controllers
                 CuentaVerificada = false,
                 FechaIngreso = DateTime.Now,
                 FechaModifico = DateTime.Now
+            };
+
+            TblUsuarios item2 = new TblUsuarios()
+            {
+                Email = user.Email,
+                Usuario = user.Usuario,
+                Nombres = user.Nombres,
+                Password = Encrypter.Encrypt(user.Password),
+                IsAdmin = false
             };
 
             var validarUsuario = item.Usuario == "";
@@ -171,6 +198,7 @@ namespace STARTBUY_API.Controllers
             if (validar)
             {
                 _context.TblUsuariosPersonas.Add(item);
+                _context.TblUsuarios.Add(item2);
                 await _context.SaveChangesAsync();
 
                 Email obj = new Email();
@@ -219,7 +247,7 @@ namespace STARTBUY_API.Controllers
                 return NotFound();
             }
 
-            await PutUserVerification(user.UsuarioPersonaId);
+            _AppServices.PutUserVerification(user.UsuarioPersonaId);
 
             return Ok(new
             {
@@ -242,15 +270,7 @@ namespace STARTBUY_API.Controllers
             });
         }
 
-        public async Task<IActionResult> PutUserVerification(int id)
-        {
-            var data = await _context.TblUsuariosPersonas.FirstOrDefaultAsync(x => x.UsuarioPersonaId == id);
-
-            data.CuentaVerificada = true;
-
-            await _context.SaveChangesAsync();
-            return Ok();
-        }
+ 
 
         [HttpPut("EditUserInfo/{id}")]
         public async Task<IActionResult> PutEditUserInfo(int id, TblUsuariosPersonas user)
@@ -293,6 +313,95 @@ namespace STARTBUY_API.Controllers
             });
         }
 
+        [HttpPost("SolicitudRegistration")]
+        public async Task<ActionResult<TblUsuariosAsociados>> SolicitudRegistration(TblUsuariosAsociados user)
+        {
 
+            TblUsuariosAsociados item = new TblUsuariosAsociados()
+            {
+                Usuario = user.Usuario,
+                Nombres = user.Nombres,
+                Apellidos = user.Apellidos,
+                Email = user.Email,
+                GeneroId = user.GeneroId,
+                PaisId = 1,
+                Password = Encrypter.Encrypt(user.Password),
+                DepartamentoId = 2,
+                CiudadId = 2,
+                DireccionCompleta = user.DireccionCompleta,
+                Telefono = user.Telefono,
+                NombreEmpresa = user.NombreEmpresa,
+                ConfirmadoPorGerencia = false
+            };
+
+            var emailexist = _context.TblUsuariosPersonas.FirstOrDefault(x => x.Email == item.Email);
+            var usuarioexist = _context.TblUsuariosPersonas.FirstOrDefault(x => x.Usuario == item.Usuario);
+
+            var validar = emailexist == null && usuarioexist == null;
+            if (validar)
+            {
+                _context.TblUsuariosAsociados.Add(item);
+                await _context.SaveChangesAsync();
+
+
+                return Ok(new
+                {
+                    UsuarioAsociadoId = item.UsuarioAsociadoId,
+                    Usuario = item.Usuario,
+                    Nombres = item.Nombres,
+                    Apellidos = item.Apellidos,
+                    Email = item.Email,
+                    GeneroId = item.GeneroId,
+                    PaisId = item.PaisId,
+                    Password = item.Password,
+                    DepartamentoId = item.DepartamentoId,
+                    CiudadId = item.CiudadId,
+                    DireccionCompleta = item.DireccionCompleta,
+                    Telefono = item.Telefono,
+                    NombreEmpresa = item.NombreEmpresa,
+                    ConfirmadoPorGerencia = item.ConfirmadoPorGerencia
+                });
+            }
+            else
+            {
+                return BadRequest("El email o usuario ya esta asociado a una cuenta existente.");
+            }
+        }
+
+        [HttpPut("EditAdminInfo/{id}")]
+        public async Task<IActionResult> PutEditAdminInfo(int id, TblUsuariosAsociados user)
+        {
+            var data = await _context.TblUsuariosAsociados.FirstOrDefaultAsync(x => x.UsuarioAsociadoId == id);
+
+            var validar = data == null;
+            if (validar)
+            {
+                return NotFound();
+            }
+
+            data.Usuario = user.Usuario;
+            data.Nombres = user.Nombres;
+            data.Apellidos = user.Apellidos;
+            data.Email = user.Email;
+            data.DireccionCompleta = user.DireccionCompleta;
+            data.Telefono = user.Telefono;
+
+            await _context.SaveChangesAsync();
+            return Ok(new
+            {
+                UsuarioPersonaId = data.UsuarioAsociadoId,
+                Usuario = data.Usuario,
+                Nombres = data.Nombres,
+                Apellidos = data.Apellidos,
+                Email = data.Email,
+                GeneroId = data.GeneroId,
+                PaisId = data.PaisId,
+                Password = data.Password,
+                DepartamentoId = data.DepartamentoId,
+                CiudadId = data.CiudadId,
+                DireccionCompleta = data.DireccionCompleta,
+                Telefono = data.Telefono
+            });
+        }
     }
 }

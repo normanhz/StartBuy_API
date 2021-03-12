@@ -23,10 +23,13 @@ namespace STARTBUY_API
         public virtual DbSet<TblEstadosVentas> TblEstadosVentas { get; set; }
         public virtual DbSet<TblGanancias> TblGanancias { get; set; }
         public virtual DbSet<TblGeneros> TblGeneros { get; set; }
+        public virtual DbSet<TblMetodosPago> TblMetodosPago { get; set; }
+        public virtual DbSet<TblNoticias> TblNoticias { get; set; }
         public virtual DbSet<TblPaises> TblPaises { get; set; }
         public virtual DbSet<TblProductos> TblProductos { get; set; }
         public virtual DbSet<TblRoles> TblRoles { get; set; }
         public virtual DbSet<TblUsuarios> TblUsuarios { get; set; }
+        public virtual DbSet<TblUsuariosAsociados> TblUsuariosAsociados { get; set; }
         public virtual DbSet<TblUsuariosPersonas> TblUsuariosPersonas { get; set; }
         public virtual DbSet<TblVentasProductos> TblVentasProductos { get; set; }
 
@@ -35,7 +38,6 @@ namespace STARTBUY_API
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                //optionsBuilder.UseSqlServer("server=LOCALHOST\\SQLEXPRESS;database=DBSTARTBUY;user=;password=;Trusted_Connection=True;");
                 optionsBuilder.UseSqlServer("server=db-startbuy.chlrw9bkclct.us-east-1.rds.amazonaws.com;database=DBSTARTBUY;user=admin;password=Datos2020;");
             }
         }
@@ -223,6 +225,51 @@ namespace STARTBUY_API
                     .IsUnicode(false);
             });
 
+            modelBuilder.Entity<TblMetodosPago>(entity =>
+            {
+                entity.HasKey(e => e.MetodoPagoId)
+                    .HasName("PK_TBL_Metodos_Pago");
+
+                entity.ToTable("TBL_METODOS_PAGO");
+
+                entity.Property(e => e.MetodoPagoId).HasColumnName("Metodo_PagoID");
+
+                entity.Property(e => e.Cvc).HasColumnName("CVC");
+
+                entity.Property(e => e.FechaExpira)
+                    .HasColumnName("Fecha_Expira")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.NumeroTarjeta).HasColumnName("Numero_Tarjeta");
+
+                entity.Property(e => e.PorDefecto).HasColumnName("Por_Defecto");
+
+                entity.Property(e => e.UsuarioPersonaId).HasColumnName("Usuario_PersonaID");
+
+                entity.HasOne(d => d.UsuarioPersona)
+                    .WithMany(p => p.TblMetodosPago)
+                    .HasForeignKey(d => d.UsuarioPersonaId)
+                    .HasConstraintName("FK_TBL_METODOS_PAGO_TBL_USUARIOS_PERSONAS");
+            });
+
+            modelBuilder.Entity<TblNoticias>(entity =>
+            {
+                entity.HasKey(e => e.NoticiaId);
+
+                entity.ToTable("TBL_NOTICIAS");
+
+                entity.Property(e => e.NoticiaId).HasColumnName("NoticiaID");
+
+                entity.Property(e => e.Descripcion).IsUnicode(false);
+
+                entity.Property(e => e.EmpresaId).HasColumnName("EmpresaID");
+
+                entity.HasOne(d => d.Empresa)
+                    .WithMany(p => p.TblNoticias)
+                    .HasForeignKey(d => d.EmpresaId)
+                    .HasConstraintName("FK_TBL_NOTICIAS_TBL_EMPRESAS");
+            });
+
             modelBuilder.Entity<TblPaises>(entity =>
             {
                 entity.HasKey(e => e.PaisId);
@@ -300,17 +347,46 @@ namespace STARTBUY_API
 
             modelBuilder.Entity<TblUsuarios>(entity =>
             {
-                entity.HasKey(e => e.UsuarioId);
+                entity.HasKey(e => e.UsuarioId)
+                    .HasName("PK_TBL_USUARIOS_1");
 
                 entity.ToTable("TBL_USUARIOS");
 
                 entity.Property(e => e.UsuarioId).HasColumnName("UsuarioID");
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Nombres)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Password)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Usuario)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<TblUsuariosAsociados>(entity =>
+            {
+                entity.HasKey(e => e.UsuarioAsociadoId)
+                    .HasName("PK_TBL_USUARIOS");
+
+                entity.ToTable("TBL_USUARIOS_ASOCIADOS");
+
+                entity.Property(e => e.UsuarioAsociadoId).HasColumnName("Usuario_AsociadoID");
 
                 entity.Property(e => e.Apellidos)
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.Property(e => e.CiudadId).HasColumnName("CiudadID");
+
+                entity.Property(e => e.ConfirmadoPorGerencia).HasColumnName("Confirmado_Por_Gerencia");
 
                 entity.Property(e => e.DepartamentoId).HasColumnName("DepartamentoID");
 
@@ -326,6 +402,11 @@ namespace STARTBUY_API
 
                 entity.Property(e => e.GeneroId).HasColumnName("GeneroID");
 
+                entity.Property(e => e.NombreEmpresa)
+                    .HasColumnName("Nombre_Empresa")
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Nombres)
                     .HasMaxLength(100)
                     .IsUnicode(false);
@@ -339,26 +420,26 @@ namespace STARTBUY_API
                 entity.Property(e => e.RoleId).HasColumnName("RoleID");
 
                 entity.Property(e => e.Usuario)
-                    .HasMaxLength(12)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.HasOne(d => d.Ciudad)
-                    .WithMany(p => p.TblUsuarios)
+                    .WithMany(p => p.TblUsuariosAsociados)
                     .HasForeignKey(d => d.CiudadId)
                     .HasConstraintName("FK_TBL_USUARIOS_TBL_CIUDADES");
 
                 entity.HasOne(d => d.Departamento)
-                    .WithMany(p => p.TblUsuarios)
+                    .WithMany(p => p.TblUsuariosAsociados)
                     .HasForeignKey(d => d.DepartamentoId)
                     .HasConstraintName("FK_TBL_USUARIOS_TBL_DEPARTAMENTOS");
 
                 entity.HasOne(d => d.Pais)
-                    .WithMany(p => p.TblUsuarios)
+                    .WithMany(p => p.TblUsuariosAsociados)
                     .HasForeignKey(d => d.PaisId)
                     .HasConstraintName("FK_TBL_USUARIOS_TBL_PAISES");
 
                 entity.HasOne(d => d.Role)
-                    .WithMany(p => p.TblUsuarios)
+                    .WithMany(p => p.TblUsuariosAsociados)
                     .HasForeignKey(d => d.RoleId)
                     .HasConstraintName("FK_TBL_USUARIOS_TBL_ROLES");
             });
@@ -412,7 +493,7 @@ namespace STARTBUY_API
                     .IsUnicode(false);
 
                 entity.Property(e => e.Usuario)
-                    .HasMaxLength(12)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.HasOne(d => d.Ciudad)
@@ -444,8 +525,6 @@ namespace STARTBUY_API
 
                 entity.Property(e => e.VentaProductoId).HasColumnName("Venta_ProductoID");
 
-                entity.Property(e => e.CategoriaProductoId).HasColumnName("Categoria_ProductoID");
-
                 entity.Property(e => e.EmpresaId).HasColumnName("EmpresaID");
 
                 entity.Property(e => e.EstadoVentaId).HasColumnName("Estado_VentaID");
@@ -458,17 +537,11 @@ namespace STARTBUY_API
 
                 entity.Property(e => e.Total).HasColumnType("numeric(18, 2)");
 
+                entity.Property(e => e.TotalNeto)
+                    .HasColumnName("Total_Neto")
+                    .HasColumnType("numeric(18, 2)");
+
                 entity.Property(e => e.UsuarioComprador).HasColumnName("Usuario_Comprador");
-
-                entity.HasOne(d => d.CategoriaProducto)
-                    .WithMany(p => p.TblVentasProductos)
-                    .HasForeignKey(d => d.CategoriaProductoId)
-                    .HasConstraintName("FK_TBL_VENTAS_PRODUCTOS_TBL_CATEGORIAS_PRODUCTOS");
-
-                entity.HasOne(d => d.Empresa)
-                    .WithMany(p => p.TblVentasProductos)
-                    .HasForeignKey(d => d.EmpresaId)
-                    .HasConstraintName("FK_TBL_VENTAS_PRODUCTOS_TBL_EMPRESAS");
 
                 entity.HasOne(d => d.Producto)
                     .WithMany(p => p.TblVentasProductos)

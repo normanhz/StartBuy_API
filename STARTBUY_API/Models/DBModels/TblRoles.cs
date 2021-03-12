@@ -7,12 +7,12 @@ namespace STARTBUY_API
     {
         public TblRoles()
         {
-            TblUsuarios = new HashSet<TblUsuarios>();
+            TblUsuariosAsociados = new HashSet<TblUsuariosAsociados>();
         }
 
         public int RoleId { get; set; }
         public string Role { get; set; }
 
-        public virtual ICollection<TblUsuarios> TblUsuarios { get; set; }
+        public virtual ICollection<TblUsuariosAsociados> TblUsuariosAsociados { get; set; }
     }
 }
